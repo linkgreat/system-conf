@@ -1,4 +1,4 @@
-FROM ubuntu:20.04 AS Runner
+FROM ubuntu:20.04 AS runner
 RUN apt update
 RUN apt install iproute2 net-tools -y
 
@@ -16,7 +16,7 @@ RUN cat ./version/ver.txt
 #RUN swag init --instanceName iss --pd -d ./ -g ./main.go
 RUN go build -a -o systemconf .
 
-FROM Runner
+FROM runner
 WORKDIR /app
 COPY --from=builder /src/systemconf ./systemconf
 
