@@ -116,7 +116,7 @@ func (m *Controller) BindSystemHandleGetIp(parent gin.IRouter) {
 			resp.SetMessage("获取ip失败:%v", err.Error()).Abort(c, http.StatusBadRequest)
 			return
 		} else {
-			resp.SetData(string(output)).OK(c)
+			resp.SetData(strings.TrimSuffix(string(output), "\n")).OK(c)
 		}
 	})
 }
