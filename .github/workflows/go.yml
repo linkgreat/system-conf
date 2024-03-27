@@ -15,17 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Gen Version
-        id: ver
-        run: |
-          ver=$(date +'%Y%m%d%H%M%S')
-          echo "ver=$ver" >> $GITHUB_ENV
-          echo $ver > ./version/ver.tmp
-          echo current Version=$ver
-      - name: Show Version
-        run: |
-          ls -la ./version
-          echo current Version=${{ env.ver }}
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
