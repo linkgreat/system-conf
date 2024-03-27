@@ -110,6 +110,7 @@ func (m *Controller) BindSystemHandleGetIp(parent gin.IRouter) {
 	parent.GET("/ip", func(c *gin.Context) {
 		resp := NewRestResponse()
 		args := []string{
+			"-c",
 			"ip", "addr", "|", "grep", "secondary", "|", "awk", "'{print $2}'",
 		}
 		cmd := exec.Command("sh", args...)
