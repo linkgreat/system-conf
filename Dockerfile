@@ -1,4 +1,4 @@
-FROM ubuntu:20.04 AS builder
+FROM golang:1.21.8-bullseye AS builder
 
 WORKDIR /src
 COPY go.mod go.sum ./
