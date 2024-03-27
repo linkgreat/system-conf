@@ -43,6 +43,22 @@ func (m *Controller) AutoBindSystem() {
 	BindHandler(m, "BindSystemHandle", sys)
 }
 
+// BindSystemHandleGetSystemTm godoc
+// @Summary 获取系统时间
+// @Description 获取系统时间
+// @Tags 系统
+// @Security Bearer
+// @Produce  json
+// @Param tm query string true "时间" default(2023-03-27-15-04-05)
+// @Success 200 {object} Response  '{"code":200,"data":[],"msg":"OK"}'
+// @Router /system/time [get]
+func (m *Controller) BindSystemHandleGetSystemTm(parent gin.IRouter) {
+	parent.GET("/time", func(c *gin.Context) {
+		resp := NewRestResponse()
+		resp.SetData(time.Now().In(log.BJ).Format("2006-01-02 15:04:05")).OK(c)
+	})
+}
+
 // BindSystemHandleUpdateTm godoc
 // @Summary 更新系统时间
 // @Description 更新系统时间
@@ -60,8 +76,8 @@ func (m *Controller) BindSystemHandleUpdateTm(parent gin.IRouter) {
 			resp.SetMessage("日期格式错误").Abort(c, http.StatusBadRequest)
 			return
 		}
-		os.Setenv("TZ", "asia/"+log.BJ.String())
-		fmt.Printf("current TZ=asia/%s\n", os.Getenv("TZ"))
+		os.Setenv("TZ", log.BJ.String())
+		fmt.Printf("current TZ=%s\n", os.Getenv("TZ"))
 
 		cmd0 := exec.Command("date", "-s", tm.Format("2006-01-02 15:04:05"))
 		output0, err := cmd0.Output()
@@ -76,6 +92,33 @@ func (m *Controller) BindSystemHandleUpdateTm(parent gin.IRouter) {
 			} else {
 				resp.SetMessage(string(output0) + "\n" + string(output1)).OK(c)
 			}
+		}
+	})
+}
+
+// BindSystemHandleGetIp godoc
+// @Summary 读取系统IP
+// @Description 读取系统IP
+// @Tags 系统
+// @Security Bearer
+// @Produce  json
+// @Param ip query string true "ip" default(192.168.0.193)
+// @Param mask query number true "掩码" default(24)
+// @Success 200 {object} Response  '{"code":200,"data":[],"msg":"OK"}'
+// @Router /system/ip [get]
+func (m *Controller) BindSystemHandleGetIp(parent gin.IRouter) {
+	parent.GET("/ip", func(c *gin.Context) {
+		resp := NewRestResponse()
+		args := []string{
+			"ip", "addr", "|", "grep", "secondary", "|", "awk", "'{print $2}'",
+		}
+		cmd := exec.Command("sh", args...)
+		output, err := cmd.Output()
+		if err != nil {
+			resp.SetMessage("获取ip失败:%v", err.Error()).Abort(c, http.StatusBadRequest)
+			return
+		} else {
+			resp.SetData(string(output)).OK(c)
 		}
 	})
 }
