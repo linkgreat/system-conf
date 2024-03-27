@@ -11,6 +11,7 @@ import (
 	"strings"
 	"system-conf/api"
 	"system-conf/common/log"
+	"system-conf/version"
 )
 
 type Args struct {
@@ -39,6 +40,9 @@ func main() {
 	flag.Parse()
 	engine := gin.Default()
 	apiRoot := engine.Group("/api")
+	apiRoot.GET("/ver", func(c *gin.Context) {
+		c.String(http.StatusOK, version.Version)
+	})
 
 	ctrl := api.NewController(apiRoot)
 	ctrl.AutoBindSystem()

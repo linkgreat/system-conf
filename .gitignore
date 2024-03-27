@@ -1,0 +1,6 @@
+/logs/
+/output/
+/results/
+/version/ver.txt
+/docs/
+/db/*.db
