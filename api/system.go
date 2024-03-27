@@ -109,11 +109,8 @@ func (m *Controller) BindSystemHandleUpdateTm(parent gin.IRouter) {
 func (m *Controller) BindSystemHandleGetIp(parent gin.IRouter) {
 	parent.GET("/ip", func(c *gin.Context) {
 		resp := NewRestResponse()
-		args := []string{
-			"-c",
-			"ip", "addr", "|", "grep", "secondary", "|", "awk", "'{print $2}'",
-		}
-		cmd := exec.Command("sh", args...)
+
+		cmd := exec.Command("bash", "-c", "ip addr | grep secondary | awk '{print $2}'")
 		output, err := cmd.Output()
 		if err != nil {
 			resp.SetMessage("获取ip失败:%v", err.Error()).Abort(c, http.StatusBadRequest)
