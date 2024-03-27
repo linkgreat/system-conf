@@ -1,0 +1,78 @@
+basePath: /api/system
+definitions:
+  api.Response:
+    properties:
+      code:
+        example: 0
+        type: integer
+      createdId: {}
+      data: {}
+      debugInfo: {}
+      msg:
+        example: ok
+        type: string
+      summary: {}
+      total: {}
+    type: object
+info:
+  contact: {}
+  title: System Conf API
+  version: "0.1"
+paths:
+  /system/change.ip:
+    put:
+      description: 更新系统IP
+      parameters:
+      - default: 192.168.0.193
+        description: ip
+        in: query
+        name: ip
+        required: true
+        type: string
+      - default: 24
+        description: 掩码
+        in: query
+        name: mask
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.Response'
+      security:
+      - Bearer: []
+      summary: 更新系统IP
+      tags:
+      - 系统
+  /system/update.time:
+    put:
+      description: 更新系统时间
+      parameters:
+      - default: 2023-03-27-15-04-05
+        description: 时间
+        in: query
+        name: tm
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.Response'
+      security:
+      - Bearer: []
+      summary: 更新系统时间
+      tags:
+      - 系统
+securityDefinitions:
+  ApiKeyAuth:
+    description: This is a http server for engineering vehicle management system.
+    in: header
+    name: token
+    type: apiKey
+swagger: "2.0"

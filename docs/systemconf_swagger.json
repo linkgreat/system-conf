@@ -1,0 +1,117 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "System Conf API",
+        "contact": {},
+        "version": "0.1"
+    },
+    "basePath": "/api/system",
+    "paths": {
+        "/system/change.ip": {
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "更新系统IP",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "系统"
+                ],
+                "summary": "更新系统IP",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "192.168.0.193",
+                        "description": "ip",
+                        "name": "ip",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "default": 24,
+                        "description": "掩码",
+                        "name": "mask",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/system/update.time": {
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "更新系统时间",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "系统"
+                ],
+                "summary": "更新系统时间",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "2023-03-27-15-04-05",
+                        "description": "时间",
+                        "name": "tm",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "api.Response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "createdId": {},
+                "data": {},
+                "debugInfo": {},
+                "msg": {
+                    "type": "string",
+                    "example": "ok"
+                },
+                "summary": {},
+                "total": {}
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "description": "This is a http server for engineering vehicle management system.",
+            "type": "apiKey",
+            "name": "token",
+            "in": "header"
+        }
+    }
+}
