@@ -79,7 +79,7 @@ func (m *Controller) BindSystemHandleUpdateTm(parent gin.IRouter) {
 		//os.Setenv("TZ", log.BJ.String())
 		//fmt.Printf("current TZ=%s\n", os.Getenv("TZ"))
 
-		cmd0 := exec.Command("date", "-s", tm.UTC().Format("2006-01-02 15:04:05"))
+		cmd0 := exec.Command("date", "-s", tm.Format("2006-01-02 15:04:05"))
 		output0, err := cmd0.Output()
 		if err != nil {
 			resp.SetMessage("修改时钟失败:%v", err).Abort(c, http.StatusInternalServerError)
